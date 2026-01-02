@@ -28,7 +28,7 @@ function regexSandbox(regexInput, str){
     const startString = str.slice(0,matchArray.index);
     const endString = str.slice(matchArray.index + matchArray[0].length,);
     stringToTest.innerHTML = `${startString}<span class="highlight">${matchArray[0]}</span>${endString}`;
-    testResult.textContent = `${str}`
+    testResult.textContent = `${matchArray[0]}`
     // console.log("just one match");
     } else{
     console.log(matchArray);
