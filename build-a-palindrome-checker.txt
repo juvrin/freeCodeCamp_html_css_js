@@ -1,0 +1,87 @@
+** start of index.html **
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css">
+    <title>Palindrome Checker</title>
+</head>
+
+<body>
+    <main class="container">
+    <h1>Palindrome Checker</h1>
+        <div id="palindrome-div">
+            <label for="text-input">Enter in text to check for a palindrome:</label>
+            <input id="text-input" type="text"></input>
+            <button id="check-btn">Check!</button>
+        </div>
+        <div id="result"><p></p></div>
+        <div class="box tips">
+    <p>💡 A palindrome is a word or sentence that's spelled the same way both forward and backward, ignoring punctuation, case, and spacing.</p></div>
+    </main>
+    <script src="./script.js"></script>
+</body>
+
+</html>
+
+
+** end of index.html **
+
+** start of styles.css **
+
+*{
+  background-color:#2a2a40;
+  color:white;
+  font-family: Verdana;
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+#palindrome-div {
+  width: min(100vw, 450px);
+  min-height: 100px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 20px;
+  margin: 10px 0;
+  background-color: white;
+  box-shadow: 0 6px 6px #002ead;
+}
+
+** end of styles.css **
+
+** start of script.js **
+
+const inputText = document.getElementById("text-input");
+const checkBtn = document.getElementById("check-btn");
+const result = document.getElementById("result");
+
+checkBtn.addEventListener("click",() => palindromeChecker(inputText.value));
+
+function palindromeChecker(str){
+  if(str === ""){alert("Please input a value")}
+  const regex = /[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\s]/g;
+  let inString = str.replace(regex,"").toLowerCase();
+  let revString = inString.split("").reverse().join("");
+
+  let test = inString === revString ? result.textContent =`${str} is a palindrome` : result.textContent =`${str} is not a palindrome`
+
+
+}
+
+** end of script.js **
+
