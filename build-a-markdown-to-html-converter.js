@@ -7,8 +7,8 @@
 //HEADINGS
 const regexHeadings = /^\s*(?<level>#+)\s(?<rest>[a-zA-Z|\s]+)/;
 let testHeadings = "### DOes this work"
-let replaceHeadings = `<h${testHeadings.match(regexHeadings)[1].length}>$<rest></h${testHeadings.match(regexHeadings)[1].length}>`
-let newHead = testHeadings.replace(regexHeadings, replaceHeadings);
+// let replaceHeadings = `<h${allString.match(regexHeadings)[1].length}>$<rest></h${allString.match(regexHeadings)[1].length}>`
+// let newHead = testHeadings.replace(regexHeadings, replaceHeadings);
 // console.log(newHead);
 
 //BOLD
@@ -20,7 +20,7 @@ let newBold1 = testBold1.replace(regexBold,replaceBold)
 let newBold2 = testBold2.replace(regexBold,"<strong>$<text></strong>")
 
 //ITALIC
-const regexItalic = /^(?<bold>\*{1}|_{1})(?<text>.+)\k<bold>/;
+const regexItalic = /^(?<italic>\*{1}|_{1})(?<text>.+)\k<italic>/;
 let replaceItalic = "<em>$<text></em>"
 let testItalic1 = "*Does this work*";
 let testItalic2 = "_Does this work_";
@@ -40,26 +40,34 @@ const regexLink = /^\[(?<linktext>.*)\]\((?<url>.*)\)/;
 let replaceLink = "<a href='$<url>'>$<linktext></a>"
 let testLink = "[click me](www.doggies.com)";
 let newLink = testLink.replace(regexLink,replaceLink);
-console.log(newLink);
+// console.log(newLink);
 
 //QUOTE
 const regexQuote = /\s*\>\s{1}(?<quotetext>.*)/;
 let replaceQuote = "<blockquote>$<quotetext></blockquote>";
 let testQuote = " > I have a dream that one day bla bla."
 let newQuote = testQuote.replace(regexQuote,replaceQuote);
-console.log(newQuote);
+// console.log(newQuote);
 
 
 //MULTIPLE REGEX
-//je zou dit ook in een dictionary kunnen zetten van regex-replace paren
-// let allRegex = [regexHeadings, regexBold, regexItalic, regexImg];
-// let allReplace = [replaceHeadings, replaceBold, replaceItalic, replaceImg]
-// // let allString = "*Does this work*";
-// let allString = "**Does this work**";
-// for(let i = 0; i < allRegex.length; i++){
+// je zou dit ook in een dictionary kunnen zetten van regex-replace paren
+let allString =  "## Does this work";
+let allRegex = [regexHeadings, regexBold, regexItalic, regexImg, regexLink, regexQuote];
+let replaceHeadings = "";
 
-//     if(allRegex[i].test(allString)){
-//         console.log(allReplace[i])
-//         return console.log(allString.replace(i, (i) => allReplace[i]))
-//     }
-// };
+try {
+    let replaceHeadings = `<h${allString.match(regexHeadings)[1].length}>$<rest></h${allString.match(regexHeadings)[1].length}>`
+    console.log(replaceHeadings);
+} catch{
+    console.log("no header")
+};
+
+//misschien dit in een finally wrappen ofzo?
+let allReplace = [replaceHeadings, replaceBold, replaceItalic, replaceImg, replaceLink, replaceQuote];
+for(let i = 0; i < allRegex.length; i++){
+    console.log(allRegex[i].test(allString));
+    if(allRegex[i].test(allString)){
+        return console.log(allString.replace(allRegex[i], allReplace[i]));
+    }
+};
