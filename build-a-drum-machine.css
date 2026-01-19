@@ -1,0 +1,17 @@
+#pad-bank{
+  display:flex;
+  flex-wrap: wrap;
+  align-content:space-between;
+  gap: 1px;
+}
+
+.drum-pad{
+    display: block;
+    box-sizing: border-box;
+    background-color: #666666;
+    padding: 5px; 
+    border: 2px solid rgb(96 139 168);
+    border-radius: 5px;
+    flex: 1 1 100px;
+}
+
