@@ -1,13 +1,18 @@
-const heater1 = document.getElementById("heater1");
-const audio = new Audio();
-
+const drumPad = document.querySelectorAll(".drum-pad");
+const display = document.getElementById("display");
 
 const playSound = id => {
-  const sound = document.getElementById(id);
-  audio.src = sound.src;
-  audio.play()
+  const audioEl = document.getElementById(id);
+  audioEl.play()
+  display.innerText = id;
 }
 
+const keyMapping = (e) => {
+  playSound(e.key.toUpperCase());
+}
+
+drumPad.forEach((pad) => pad.addEventListener("click", () => playSound(pad.id.replace("pad",""))));
+document.addEventListener("keydown", keyMapping);
 
 
-heater1.addEventListener("click", () => playSound("Q"))
+
