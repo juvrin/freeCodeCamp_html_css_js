@@ -33,13 +33,32 @@ class BankAccount{
       return "Insufficient balance or invalid amount."
     }
   }
+
+  checkBalance(){
+    return `Current balance: \$${this.balance}`;
+  }
+
+  listAllDeposits(){
+    let outString = "Deposits: "
+    this.transactions.filter((transaction) => transaction.type === "deposit").forEach((transaction) => outString += `${transaction.amount},`)
+    outString = outString.replace(/,\s*$/, "");
+  return outString;
+  }
+
+  listAllWithdrawals(){
+    let outString = "Withdrawals: "
+    this.transactions.filter((transaction) => transaction.type === "withdraw").forEach((transaction) => outString += `${transaction.amount},`)
+    outString = outString.replace(/,\s*$/, "");
+  return outString;
+  }
 }
 
-const testTransaction = new Transaction("deposit", 100);
-// console.log(testTransaction);
-
-const testAccount = new BankAccount();
-testAccount.deposit(200);
-console.log(testAccount.withdraw(250));
-// console.log(testAccount.deposit(0));
-console.log(testAccount);
+const myAccount = new BankAccount();
+myAccount.deposit(200);
+myAccount.deposit(100);
+myAccount.deposit(500);
+myAccount.withdraw(50);
+myAccount.withdraw(50);
+myAccount.withdraw(50);
+console.log(myAccount.listAllDeposits());
+console.log(myAccount.listAllWithdrawals());
