@@ -4,29 +4,9 @@ const startArr = document.getElementById("starting-array");
 const arrContainer = document.getElementById("array-container");
 
 
-const generateElement = () => Math.floor(Math.random() * (100 - 1 + 1)) + 1;
+const generateElement = () => Math.floor(Math.random() * 100) + 1;
 const isOrdered = (int1,int2) => (int1 <= int2);
-const generateContainer = () => `<div> </div>`;
-const highlightCurrentEls = (htmlEl,index) => {
-
-  //hier deed chatGPT iets met eerst wrappen in een <div> en dan htmlEL = wrapper.innerHTML
-  //vervolgens ging die over const children = htmlEL.children en dan de el's binnen die childeren
-  //zoiets maar het heeft met chatGPT maar 1x gewerkt
-  //het kan ook zijn dat je niet correct erefereert naar je class in css en dat er
-  //specifiekere regels zijn die voorrang rkijgen?
-
-  //onderstaande kan wel werken misscien als je eerst een DOM element ervoor maakt?
-  var spans = document.querySelector(".arr").getElementsByTagName("span");
-  spans[index].classList.toggle("highlighted");
-  spans[index+1].classList.toggle("highlighted");
-  var child = document.querySelector(`#${htmlEl}:nth-child(${index+1})`)
-  child.addClass("highlighted")
-  //addClass("highlighted") to nth child of htmlEl
-  // htmlEl nth-child(index)
-  // htmlEl[index].style.border = "1px red dashed"
-  //MOETNOG hier moet nog ook index+1 border color wijzigen
-  };
-
+const generateContainer = () => document.createElement("div");
 
 function generateArray(){
   const arr = [];
@@ -34,21 +14,14 @@ function generateArray(){
     arr.push(generateElement());
   }
   return arr;
+  // return function(){
+  //   return arr;
+  // }
 };
 
 
-function fillArrContainer(htmlEl,arr){
-  let startEl = htmlEl.split(" ")[0];
-  let endEl = htmlEl.split(" ")[1];
-  let outStr=`${startEl}`;
-  for(let num of arr){
-    outStr += `<span>${num}</span>`
-  }
-  outStr+=`${endEl}`
-  return [outStr,arr];
-}
-
 function swapElements(arr, index){
+  //MOETNOG hier die if weghalen?
   if(index <= arr.length-2){
     let firstEl = arr[index];
     let nextEl = arr[index+1];
@@ -60,34 +33,55 @@ function swapElements(arr, index){
     return arr;
 }
 
-function loopThroughSwap(arr){ 
+const highlightCurrentEls = (htmlEl,index) => {
+   const children = htmlEl.children;
+  if (children[index] && children[index + 1]) {
+         children[index].classList.add('highlight');
+         children[index+1].classList.add('highlight');
+      }
+      return htmlEl
+};
+
+
+
+function fillArrContainer(htmlEl, arr){
+  htmlEl.innerHTML = "";
+  for(let num of arr){
+    var span = document.createElement('span');
+    span.textContent = num;
+    htmlEl.appendChild(span);
+  }
+  return htmlEl
+}
+
+function loopThroughSwap(arr){
   let arrCopy = [...arr];
   let sortedArr = arrCopy.sort((a, b) => a - b);
-  let outStr = '';
-  let outoutStr = "";
-  
+
   let i = 0;
   while (JSON.stringify(sortedArr) !== JSON.stringify(arr)){
-      arr = swapElements(arr, i);
-      outStr += fillArrContainer(generateContainer(), arr)[0];
-      outoutStr = highlightCurrentEls(outStr,i)
+    arr = swapElements(arr, i);
+    // arrContainer.innerHTML += fillArrContainer(generateContainer(), arr).outerHTML;
+    arrContainer.innerHTML += highlightCurrentEls(fillArrContainer(generateContainer(), arr),i).outerHTML;
       i = (i + 1) % 5
   }  
-  return outoutStr;
 }
 
 
 let randomArr = [];
 genArr.addEventListener("click",() => {
-  [startArr.innerHTML, randomArr] = fillArrContainer(generateContainer(),generateArray());
-  // console.log(randomArr)
-  //MOETNOG dit moet nog anders:
-  // arrContainer.innerHTML = ""
+  randomArr = generateArray();
+  startArr.innerHTML = fillArrContainer(generateContainer(),randomArr).innerHTML;
+  //MOETNOG cheken of onderstaande werkt 
+  // Array.from(arrContainer.children).forEach(child => {
+  //       if (child !== startArr) child.remove();
+  //   });
   });
-
-
 
 sortArr.addEventListener("click",() => {
-  arrContainer.innerHTML = loopThroughSwap(randomArr); 
+  loopThroughSwap(randomArr); 
   });
+  
+
+
 
