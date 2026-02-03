@@ -4,6 +4,7 @@ const startArr = document.getElementById("starting-array");
 const arrContainer = document.getElementById("array-container");
 
 
+
 const generateElement = () => Math.floor(Math.random() * 100) + 1;
 const isOrdered = (int1,int2) => (int1 <= int2);
 const generateContainer = () => document.createElement("div");
@@ -14,9 +15,6 @@ function generateArray(){
     arr.push(generateElement());
   }
   return arr;
-  // return function(){
-  //   return arr;
-  // }
 };
 
 
@@ -61,7 +59,6 @@ function loopThroughSwap(arr){
   let i = 0;
   while (JSON.stringify(sortedArr) !== JSON.stringify(arr)){
     arr = swapElements(arr, i);
-    // arrContainer.innerHTML += fillArrContainer(generateContainer(), arr).outerHTML;
     arrContainer.innerHTML += highlightCurrentEls(fillArrContainer(generateContainer(), arr),i).outerHTML;
       i = (i + 1) % 5
   }  
