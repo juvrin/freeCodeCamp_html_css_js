@@ -4,7 +4,6 @@ const startArr = document.getElementById("starting-array");
 const arrContainer = document.getElementById("array-container");
 
 
-
 const generateElement = () => Math.floor(Math.random() * 100) + 1;
 const isOrdered = (int1,int2) => (int1 <= int2);
 const generateContainer = () => document.createElement("div");
@@ -20,13 +19,13 @@ function generateArray(){
 
 function swapElements(arr, index){
   //MOETNOG hier die if weghalen?
-  if(index <= arr.length-2){
+  // if(index <= arr.length-2){
     let firstEl = arr[index];
     let nextEl = arr[index+1];
     if(!isOrdered(firstEl,nextEl)){
       arr[index] = nextEl;
       arr[index+1] = firstEl;
-    };
+    // };
   };
     return arr;
 }
@@ -34,13 +33,11 @@ function swapElements(arr, index){
 const highlightCurrentEls = (htmlEl,index) => {
    const children = htmlEl.children;
   if (children[index] && children[index + 1]) {
-         children[index].classList.add('highlight');
-         children[index+1].classList.add('highlight');
+         children[index].classList.toggle('highlight');
+         children[index+1].classList.toggle('highlight');
       }
       return htmlEl
 };
-
-
 
 function fillArrContainer(htmlEl, arr){
   htmlEl.innerHTML = "";
@@ -59,24 +56,44 @@ function loopThroughSwap(arr){
   let i = 0;
   while (JSON.stringify(sortedArr) !== JSON.stringify(arr)){
     arr = swapElements(arr, i);
+
+    //hier nog append child?
+    // const stepContainer = generateContainer();
+    // fillArrContainer(stepContainer, arr);
+    // highlightCurrentEls(stepContainer, i);
+    // arrContainer.appendChild(stepContainer);
+
     arrContainer.innerHTML += highlightCurrentEls(fillArrContainer(generateContainer(), arr),i).outerHTML;
+
       i = (i + 1) % 5
   }  
 }
 
 
 let randomArr = [];
+
 genArr.addEventListener("click",() => {
+  startArr.innerHTML = "";
   randomArr = generateArray();
-  startArr.innerHTML = fillArrContainer(generateContainer(),randomArr).innerHTML;
-  //MOETNOG cheken of onderstaande werkt 
-  // Array.from(arrContainer.children).forEach(child => {
-  //       if (child !== startArr) child.remove();
-  //   });
+  const container = generateContainer();
+  fillArrContainer(container, randomArr);
+  startArr.appendChild(container);
+  Array.from(arrContainer.children).forEach(child => {
+        if (child.id !== "starting-array") child.remove();
+    });
   });
 
 sortArr.addEventListener("click",() => {
+
+  // fillArrContainer(startArr,randomArr);
+  // highlightCurrentEls(startArr, 0);
+  // startArr.innerHTML = highlightCurrentEls(fillArrContainer(generateContainer(), randomArr),0).innerHTML;
   loopThroughSwap(randomArr); 
+  // const finalContainer = generateContainer();
+  // fillArrContainer(finalContainer, arr);
+  // arrContainer.appendChild(finalContainer);
+  
+  // console.log(arrContainer.children.length)
   });
   
 
