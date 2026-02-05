@@ -1,0 +1,40 @@
+*{
+  background-color: teal;
+  font-family:Verdana;
+}
+
+div,
+div > * {
+  background-color:white;
+  margin: 10px auto;
+}
+
+.container {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "content content";
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  background-color: white;
+  padding: 10px;
+}
+
+.container div {
+  background-color: white;
+  padding: 10px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.container div.header {
+  grid-area: header;
+  text-align: center;
+}
+
+
+.selectors{
+  display:flex;
+  background-color:white;
+  margin: 10px auto;
+}
